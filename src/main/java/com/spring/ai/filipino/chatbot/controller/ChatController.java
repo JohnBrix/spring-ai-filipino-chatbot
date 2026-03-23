@@ -2,7 +2,9 @@ package com.spring.ai.filipino.chatbot.controller;
 
 import com.spring.ai.filipino.chatbot.model.ChatRequest;
 import com.spring.ai.filipino.chatbot.model.ChatResponse;
+import com.spring.ai.filipino.chatbot.model.ModerateRequest;
 import com.spring.ai.filipino.chatbot.service.ChatService;
+import com.spring.ai.filipino.chatbot.service.TextModerationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,17 @@ public class ChatController {
     @PostMapping("/filipino")
     public ResponseEntity<ChatResponse> getChatModel(@RequestBody ChatRequest request) {
         return new ResponseEntity<>(chatService.getChatModel(request), HttpStatus.OK);
+    }
+
+    @Autowired
+    private TextModerationService service;
+
+    @PostMapping("/moderate")
+    public ResponseEntity<String> moderate(@RequestBody ModerateRequest request) {
+
+        String response = service.moderate(request.getText());
+        log.info("moderate response: {}",response);
+        return ResponseEntity.ok(response);
     }
 
 }

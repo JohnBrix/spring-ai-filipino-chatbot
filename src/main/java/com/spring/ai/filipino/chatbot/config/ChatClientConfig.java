@@ -22,4 +22,6 @@ public class ChatClientConfig {
         return ChatClient.builder(chatModel)
                 .build();
     }
+
+
 }
